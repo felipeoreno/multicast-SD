@@ -4,7 +4,6 @@
 
 int main() {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-
     sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(8080);
