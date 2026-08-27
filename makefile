@@ -1,14 +1,12 @@
+CXX=g++
+CXXFLAGS=-I.
+DEPS=client.h
 
-CC=g++
-CFLAGS=-I.
-DEPS = client.h
-OBJ = client.o main.o 
+client: client.o
+	$(CXX) -o $@ $^
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+main: main.o
+	$(CXX) -o $@ $^
 
-client: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
-
-main : $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+%.o: %.cpp $(DEPS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
