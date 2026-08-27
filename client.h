@@ -14,11 +14,11 @@ struct Client {
     }
 };
 
-struct Mensagem {
+struct Message {
     int procId;
     int clock; 
 
-    Mensagem(int id, int c) {
+    Message(int id, int c) {
         procId = id;
         clock = c; 
     }

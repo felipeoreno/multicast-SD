@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include "client.h"
 
 int main() {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -12,9 +13,9 @@ int main() {
     bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
     listen(serverSocket, 5);
     int clientSocket = accept(serverSocket, nullptr, nullptr);
-    char buffer[1024] = {0};
-    recv(clientSocket, buffer, sizeof(buffer), 0);
-    std::cout << "Message from client: " << buffer << std::endl;
+    Message buffer = Message(0, 0);
+    recv(clientSocket, (void *) &buffer, sizeof(buffer), 0);
+
 
     close(serverSocket);
     return 0;
