@@ -2,6 +2,10 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
+struct Processo{
+    
+}
+
 int main() {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
