@@ -16,7 +16,8 @@ struct Client {
 
 struct Message {
     int procId;
-    int clock; 
+    int clock;
+    std::string msg;
 
     Message(int id, int c) {
         procId = id;

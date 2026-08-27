@@ -3,7 +3,7 @@
 #include <sys/socket.h>
 #include "client.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
@@ -11,11 +11,14 @@ int main() {
     serverAddress.sin_addr.s_addr = INADDR_ANY;
 
     bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
+    for(int i = 0; i < std::stoi(*argv); i++) {
+
+    }
     listen(serverSocket, 5);
     int clientSocket = accept(serverSocket, nullptr, nullptr);
     Message buffer = Message(0, 0);
     recv(clientSocket, (void *) &buffer, sizeof(buffer), 0);
-
+    //send(serverSocket)
 
     close(serverSocket);
     return 0;
