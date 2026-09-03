@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include "diagnose.hpp"
 #include <array>
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
@@ -33,7 +33,7 @@ struct Message {
 
 
     string message_to_string(){
-        return to_string(procId) + to_string(clcok) + msg;
+        return to_string(procId) + to_string(clock) + msg;
     }
 
     std::array<char, 1024> to_datagram() {
@@ -70,10 +70,10 @@ struct Client {
     }
 
     void send_message(string text){
-        Message m = (procId, clock, text);
+        Message m (procId, clock, text);
 
         int serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
-        diagnose(sock.isGood(), "Opening datagram socket for send");
+        diagnose(serverSocket >= 0, "Opening datagram socket for send");
 
         sockaddr_in groupSock = {};   // init to all zeroes
         groupSock.sin_family = AF_INET;
@@ -82,11 +82,11 @@ struct Client {
 
         in_addr localIface = {};   // init to all zeroes
         localIface.s_addr = inet_addr("127.0.0.1");
-        diagnose(setsockopt(sock(), IPPROTO_IP, IP_MULTICAST_IF, (char*)&localIface,
+        diagnose(setsockopt(serverSocket, IPPROTO_IP, IP_MULTICAST_IF, (char*)&localIface,
                             sizeof(localIface)) >= 0, "Setting local interface");
 
 
-        diagnose(sendto(sock(), m.message_to_string().c_str(), databuf.length(), 0,
+        diagnose(sendto(serverSocket, m.message_to_string().c_str(), m.message_to_string().length(), 0,
                         (sockaddr*)&groupSock, sizeof(groupSock)) >= 0,
                 "Sending datagram message");
     }
@@ -124,13 +124,13 @@ struct Client {
         // Read from the socket
         std::array<char, 1024> arr;
         arr.fill(0);
-        diagnose(read(sock2(), arr.data(), arr.size()) >= 0,
+        diagnose(read(serverSocket, arr.data(), arr.size()) >= 0,
                 "Reading datagram message");
         std::cout << "Message from multicast sender: " << arr.data()
                     << std::endl;
 
         // Retorna a mensagem que foi enviada
-        Mensagem m;
+        Message m;
         m.from_datagram(arr);
 
         return m;
