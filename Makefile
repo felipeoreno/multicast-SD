@@ -1,11 +1,8 @@
 CXX=g++
 CXXFLAGS=-I. -Wall -Wall -O0 -ggdb3
-DEPS=client.h
+DEPS=main.hpp
 
-all: main client
-
-client: client.o
-	$(CXX) -o $@ $^
+all: main
 
 main: main.o
 	$(CXX) -o $@ $^
@@ -14,4 +11,4 @@ main: main.o
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 clean:
-	rm -f *.o client main
+	rm -f *.o main
